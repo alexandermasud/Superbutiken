@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -13,10 +14,10 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        $products = Product::all();
+        return view('products/index')-> with('products', $products);
        
-        $title = 'Alla produkter';
-        return view('products/index')->with('title', $title);
-    
+
     }
 
     /**
@@ -26,8 +27,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $title = 'Skapa ny produkt';
-        return view('products/create')->with('title', $title);
+        return view('movies/create');
     }
 
     /**
@@ -38,7 +38,16 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = new Product;
+        $product->title = $request->input('title');
+        $product->brand = $request->input('brand');
+        $product->price = $request->input('price');
+        $product->description = $request->input('description');
+        $product->image = $request->input('image');
+        $product->save();
+        
+        return redirect()->route('products/index');
+
     }
 
     /**
@@ -49,7 +58,8 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+        return view('products/show')-> with('product', $product);
     }
 
     /**
@@ -60,7 +70,10 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        return view('products/edit', [
+            'product' => $product
+        ]);
     }
 
     /**
@@ -72,7 +85,14 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);
+        $product->title = $request->input('title');
+        $product->brand = $request->input('brand');
+        $product->price = $request->input('price');
+        $product->description = $request->input('description');
+        $product->image = $request->input('image');
+        $product->save();
+        return redirect()->route('products/index');
     }
 
     /**
@@ -83,6 +103,7 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::destroy($id);
+        return redirect()->route('product/index');
     }
 }
