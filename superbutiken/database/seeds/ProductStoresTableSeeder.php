@@ -11,7 +11,7 @@ class ProductStoresTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('product_store')->insert([
+        DB::table('product_stores')->insert([
             [
                 "product_id" => 1,
                 "store_id" => 1
