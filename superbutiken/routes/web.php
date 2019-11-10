@@ -21,4 +21,4 @@ $router->put('/products/{id}', 'ProductsController@update');
 
 $router->get('/stores', 'StoresController@index');
 
-
+$router->get('/reviews', 'ReviewsController@index');
