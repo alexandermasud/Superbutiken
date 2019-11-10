@@ -1,4 +1,4 @@
-<h1>EDIT</h1>
+<h1>PRODUCTS - EDIT</h1>
 {{$product}}
 
 

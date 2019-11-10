@@ -1,3 +1,3 @@
-<h1>SHOW</h1>
+<h1>PRODUCTS - SHOW</h1>
 
 {{$product}}

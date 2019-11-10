@@ -18,3 +18,7 @@ $router->post('/products', 'ProductsController@create');
 $router->get('/products/{id}', 'ProductsController@show');
 $router->delete('/products/{id}', 'ProductsController@delete');
 $router->put('/products/{id}', 'ProductsController@update');
+
+$router->get('/stores', 'StoresController@index');
+
+
