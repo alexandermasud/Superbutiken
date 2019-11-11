@@ -18,7 +18,8 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('products/index')-> with('products', $products);
+        return response()->json($products);
+        //return view('products/index')-> with('products', $products);
        
 
     }
@@ -102,7 +103,8 @@ class ProductsController extends Controller
 
         
 
-        return view('products/show')-> with('product', $product);
+        //return view('products/show')-> with('product', $product);
+        return response()->json($product);
     }
 
     /**
