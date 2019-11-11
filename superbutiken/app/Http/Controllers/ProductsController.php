@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Review;
+use App\Store;
+use App\ProductStore;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -59,7 +62,32 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        return view('products/show')-> with('product', $product);
+        $reviews = Review::where('product_id', $id)->get();
+        $productStores = ProductStore::where('product_id', $id)->get();
+
+        $storesArray = array();
+        foreach ($productStores as $productStore){
+            $storeId = $productStore['store_id'];
+            $stores = Store::where('id', $storeId)->get();
+            foreach ($stores as $store){
+                array_push($storesArray, $store);
+            }
+        }
+        
+
+        $product->{'reviews'} = $reviews;
+        $product->{'stores'} = $storesArray;
+
+        echo $product;
+        
+        
+        
+        
+        //print_r($storeArray);
+        
+
+        
+        //return view('products/show')-> with('product', $product);
     }
 
     /**
