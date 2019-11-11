@@ -63,31 +63,37 @@ class ProductsController extends Controller
     {
         $product = Product::find($id);
         $reviews = Review::where('product_id', $id)->get();
+        // Finds all store/product id data that matches a given product id
         $productStores = ProductStore::where('product_id', $id)->get();
 
         $storesArray = array();
+        $pivotArray = array();
+
+        // Loops all results
         foreach ($productStores as $productStore){
+            // storeId is assignd a store_id eg 1
             $storeId = $productStore['store_id'];
+            // Gets all store data from storeId
             $stores = Store::where('id', $storeId)->get();
+            // Creates pivot for stores
+            $pivot = '{"product_id":'.$id.',"store_id":'.$storeId.'}';
+            $pivotArray = json_decode($pivot, true);
+            
+            // Loops through all stores that store a certain product and pushes to array
             foreach ($stores as $store){
+                // Adds pivot part to stores
+                $store->{'pivot'} = $pivotArray;
                 array_push($storesArray, $store);
             }
         }
         
-
+        // Pushes reviews and stores to product
         $product->{'reviews'} = $reviews;
         $product->{'stores'} = $storesArray;
 
-        echo $product;
-        
-        
-        
-        
-        //print_r($storeArray);
         
 
-        
-        //return view('products/show')-> with('product', $product);
+        return view('products/show')-> with('product', $product);
     }
 
     /**
