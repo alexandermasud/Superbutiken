@@ -15,7 +15,8 @@ class ReviewsController extends Controller
     public function index()
     {
         $reviews = Review::all();
-        return view('reviews/index')-> with('reviews', $reviews);
+        return response()->json($reviews);
+        //return view('reviews/index')-> with('reviews', $reviews);
 
     }
 
