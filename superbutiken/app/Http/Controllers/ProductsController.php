@@ -48,6 +48,15 @@ class ProductsController extends Controller
         $product->description = $request->input('description');
         $product->image = $request->input('image');
         $product->save();
+
+        //$productStore = new ProductStore;
+        //$productStore->product_id = $request->input('product_id');
+        //$productStore->store_id = $request->input('store_id');
+
+
+        //foreach ($request->get("stores") as $store) {
+            // Do something fun!
+        //}
         
         return redirect()->route('products/index');
 
