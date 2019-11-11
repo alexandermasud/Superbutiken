@@ -15,7 +15,8 @@ class StoresController extends Controller
     public function index()
     {
         $stores = Store::all();
-        return view('stores/index')-> with('stores', $stores);
+        return response()->json($stores);
+        //return view('stores/index')-> with('stores', $stores);
 
     }
 
