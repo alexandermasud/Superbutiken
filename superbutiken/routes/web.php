@@ -15,9 +15,7 @@ $router->get('/', 'PagesController@index');
 
 $router->get('/products', 'ProductsController@index');
 $router->post('/products', 'ProductsController@create');
-
 $router->get('/products/{id}', 'ProductsController@show');
-
 
 $router->get('/stores', 'StoresController@index');
 

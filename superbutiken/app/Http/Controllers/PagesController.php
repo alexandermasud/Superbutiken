@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Store;
-use Illuminate\Http\Request;
-
-class StoresController extends Controller
+class PagesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +11,12 @@ class StoresController extends Controller
      */
     public function index()
     {
-        $stores = Store::all();
-        return response()->json($stores);
+        
+        return response()->json();
+        
+       
 
     }
+
+    //
 }

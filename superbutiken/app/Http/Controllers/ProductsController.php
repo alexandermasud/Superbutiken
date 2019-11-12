@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\DB;
 
 use App\Product;
@@ -21,8 +22,6 @@ class ProductsController extends Controller
         $products = Product::all();
         return response()->json($products);
         //return view('products/index')-> with('products', $products);
-       
-
     }
 
     /**
@@ -51,22 +50,8 @@ class ProductsController extends Controller
             $productStore->product_id = $productId->id;
             $productStore->store_id = $storeId;
             $productStore->save();
-            
         }
-
         return response()->json(['success' => true]);
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -86,64 +71,28 @@ class ProductsController extends Controller
         $pivotArray = array();
 
         // Loops all results
-        foreach ($productStores as $productStore){
+        foreach ($productStores as $productStore) {
             // storeId is assignd a store_id eg 1
             $storeId = $productStore['store_id'];
             // Gets all store data from storeId
             $stores = Store::where('id', $storeId)->get();
             // Creates pivot for stores
-            $pivot = '{"product_id":'.$id.',"store_id":'.$storeId.'}';
+            $pivot = '{"product_id":' . $id . ',"store_id":' . $storeId . '}';
             $pivotArray = json_decode($pivot, true);
-            
+
             // Loops through all stores that store a certain product and pushes to array
-            foreach ($stores as $store){
+            foreach ($stores as $store) {
                 // Adds pivot part to stores
                 $store->{'pivot'} = $pivotArray;
                 array_push($storesArray, $store);
             }
         }
-        
+
         // Pushes reviews and stores to product
         $product->{'reviews'} = $reviews;
         $product->{'stores'} = $storesArray;
 
-        
-
         //return view('products/show')-> with('product', $product);
         return response()->json($product);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
