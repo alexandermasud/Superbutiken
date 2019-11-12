@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use App\Product;
 use App\Review;
@@ -29,9 +30,32 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('movies/create');
+        $product = new Product;
+        $product->title = $request->input('title');
+        $product->brand = $request->input('brand');
+        $product->price = $request->input('price');
+        $product->description = $request->input('description');
+        $product->image = $request->input('image');
+        $product->save();
+
+        // Gets id of newest product ie id of above product
+        $productId = DB::table('products')->select('id')->latest('created_at')->first();
+
+        // Loops each store id from form
+        foreach ($request->get("stores") as $storeId) {
+            $productStore = new ProductStore;
+
+            // Assigns store id and product id to productStore
+            $productStore->product_id = $productId->id;
+            $productStore->store_id = $storeId;
+            $productStore->save();
+            
+        }
+
+        return response()->json(['success' => true]);
+        
     }
 
     /**
@@ -42,25 +66,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        $product = new Product;
-        $product->title = $request->input('title');
-        $product->brand = $request->input('brand');
-        $product->price = $request->input('price');
-        $product->description = $request->input('description');
-        $product->image = $request->input('image');
-        $product->save();
-
-        //$productStore = new ProductStore;
-        //$productStore->product_id = $request->input('product_id');
-        //$productStore->store_id = $request->input('store_id');
-
-
-        //foreach ($request->get("stores") as $store) {
-            // Do something fun!
-        //}
-        
-        return redirect()->route('products/index');
-
+        //
     }
 
     /**
@@ -115,10 +121,7 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::find($id);
-        return view('products/edit', [
-            'product' => $product
-        ]);
+        //
     }
 
     /**
@@ -130,14 +133,7 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-        $product->title = $request->input('title');
-        $product->brand = $request->input('brand');
-        $product->price = $request->input('price');
-        $product->description = $request->input('description');
-        $product->image = $request->input('image');
-        $product->save();
-        return redirect()->route('products/index');
+        //
     }
 
     /**
@@ -148,7 +144,6 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        Product::destroy($id);
-        return redirect()->route('product/index');
+        //
     }
 }
